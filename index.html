@@ -26,7 +26,7 @@
             padding: 20px;
         }
 
-    .app-container {
+.app-container {
     width: 100%;
     max-width: 420px;
     height: 90vh; /* Bajamos un poco el alto */
@@ -600,26 +600,31 @@
         // --- LÓGICA DE SELECCIÓN DE CAJA ---
 function selectGiftBox(boxType) {
     let mensaje = "";
-    if (boxType === 'big') mensaje = "Elegí la caja grande. ¿Qué hay aquí?";
-    else if (boxType === 'small') mensaje = "Elegí la caja pequeña. ¿Qué hay aquí?";
-    else if (boxType === 'both') mensaje = "Elegí ambas cajas. ¿Qué hay aquí?";
 
-    // 1. Cambiamos la pantalla inmediatamente para que ella no vea nada extraño
-    nextScreen(5);
+    // Definimos el mensaje según la caja
+    if (boxType === 'big') {
+        mensaje = "Elegí la caja grande. ¿Qué hay aquí?";
+    } else if (boxType === 'small') {
+        mensaje = "Elegí la caja pequeña. ¿Qué hay aquí?";
+    } else if (boxType === 'both') {
+        mensaje = "Elegí ambas cajas. ¿Qué hay aquí?";
+    }
 
-    // 2. Actualizamos el texto
+    // Tu número y el link de WhatsApp
+    const numeroTelefono = "573196186316";
+    const urlWhatsApp = "https://wa.me/" + numeroTelefono + "?text=" + encodeURIComponent(mensaje);
+
+    // Abrir WhatsApp
+    window.open(urlWhatsApp, '_blank');
+
+    // Confirmación visual en la pantalla
     const resultText = document.getElementById('giftResultText');
-    if (resultText) resultText.innerText = "Preparando tu sorpresa... 5s";
+    if (resultText) {
+        resultText.innerText = "¡Elección registrada! Me acaba de llegar tu mensaje.";
+    }
 
-    // 3. Ejecutamos la apertura del link después de 5 segundos
-    setTimeout(function() {
-        const urlWhatsApp = "https://wa.me/573196186316?text=" + encodeURIComponent(mensaje);
-        
-        // Abrimos el link en una nueva ventana
-        window.open(urlWhatsApp, '_blank');
-        
-        if (resultText) resultText.innerText = "¡Listo! Ya se abrió el chat.";
-    }, 5000);
+    // Ir a la pantalla de resultado (pantalla 5)
+    nextScreen(5);
 }
 
         // --- LÓGICA DEL CARRUSEL ---
